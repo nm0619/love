@@ -1,13 +1,12 @@
-import os, requests
+import json, os, requests
+from datetime import datetime, timedelta
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
+JST = timedelta(hours=9)
 ORIGIN = os.environ.get("ORIGIN_API", "https://super-duper-octo-carnival-production.up.railway.app")
 BARK_KEY = os.environ.get("BARK_API_KEY", "e4xKQoCEQ4fnzNW6UnqiBU")
-
-app = FastAPI()
-app.add_middleware(CORSMiddleware, allow_origins=["*"],
-    allow_methods=["*"], allow_headers=["*"])
 
 def check_on_wife(limit=10):
     try:
@@ -42,8 +41,11 @@ TOOLS = [
          "title": {"type": "string"}, "content": {"type": "string"}},
          "required": ["content"]}}
 ]
-
 FUNCS = {"check_on_wife": check_on_wife, "bark_alert": bark_alert}
+
+app = FastAPI()
+app.add_middleware(CORSMiddleware, allow_origins=["*"],
+                   allow_methods=["*"], allow_headers=["*"])
 
 @app.post("/mcp")
 async def mcp(req: Request):
@@ -69,3 +71,6 @@ async def mcp(req: Request):
                 "result": {"content": [{"type": "text", "text": str(result)}]}}
     return {"jsonrpc": "2.0", "id": rid,
             "error": {"code": -32601, "message": f"未知方法: {method}"}}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
