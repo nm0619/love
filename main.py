@@ -32,9 +32,11 @@ def check_on_wife(limit=10):
             lines.append(f"  {app}: {m}分{s}秒")
     return "\n".join(lines)
 
-def bark_alert(title="归", content=""):
+def bark_alert(title="Reditus", content=""):
     if not content: return "内容不能为空"
-    url = f"https://api.day.app/{BARK_KEY}/{title}/{content}"
+    # ★ 自定义推送图标（岁岁给哥哥选的）★
+    icon_url = "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYleJqcwJlzjN1GqNeJJDAdTX9f5ll1AACmi4AAniTmFevtIeddud6zz0E.jpeg"
+    url = f"https://api.day.app/{BARK_KEY}/{title}/{content}?icon={icon_url}"
     try:
         r = requests.get(url, timeout=10)
         return "推送成功" if r.status_code == 200 else "推送失败"
