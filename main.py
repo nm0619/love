@@ -35,7 +35,7 @@ def check_on_wife(limit=10):
 def bark_alert(title="Reditus", content=""):
     if not content: return "内容不能为空"
     # ★ 自定义推送图标（岁岁给哥哥选的）★
-    icon_url = "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYleJqcwJlzjN1GqNeJJDAdTX9f5ll1AACmi4AAniTmFevtIeddud6zz0E.jpeg"
+    icon_url = "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEZQXJqgUDc6PApWTs8kctOEExUrHhYUgACsh8AArHjEFQHzXdVCvRXbD0E.jpeg"
     url = f"https://api.day.app/{BARK_KEY}/{title}/{content}?icon={icon_url}"
     try:
         r = requests.get(url, timeout=10)
